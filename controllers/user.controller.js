@@ -1,6 +1,6 @@
 const User = require('../schemas/user.schema')
 
-function getUser(req,res) {
+function getUsers(req,res) {
     User.find({}, (error, user) =>{
         if(error){
             return res.status(500).send({
@@ -17,14 +17,27 @@ function getUser(req,res) {
         return res.status(200).send({
             ok: true,
             message:'Usuario encontrado exitosamente',
-            userEncontrado: user
+            users: user
         })
     })
 }
-
+async function getUser(req,res){
+    console.log(req.params);
+    const id = req.params.userID
+    const user = await User.findById(id);
+    console.log(`EL usuario encontrado es ${user}`)
+    if(!user) return res.status(200).send({
+        ok:false,
+        message:'No se encontró ningun usuario'
+    })
+    return res.send({
+        ok: true,
+        message:'Usuario especifico',
+        user
+    })
+}
 async function createUser(req,res){
     try{
-
         console.log(req.body);
         let user = new User(req.body);
         console.log(user);
@@ -68,6 +81,7 @@ function login(req, res){
     })
 }
 module.exports = {
+    getUsers,
     getUser,
     createUser,
     deleteUser,
