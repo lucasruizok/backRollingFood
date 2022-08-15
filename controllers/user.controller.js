@@ -1,4 +1,9 @@
 const User = require('../schemas/user.schema')
+const bcrypt = require(`bcrypt`);   
+const saltRounds = 10;              
+const jwt =require ('jsonwebtoken')
+const secretSeed = require('../config/config').secret
+
 
 function getUsers(req,res) {
     User.find({}, (error, user) =>{
@@ -40,6 +45,17 @@ async function createUser(req,res){
     try{
         console.log(req.body);
         let user = new User(req.body);
+
+        let password = req.body.password;
+        const encryptedPassword = await bcrypt.hash(password, saltRounds) 
+        if(!encryptedPassword){
+            return res.send({
+                message: `error al encriptar`
+            })
+        }
+        console.log( `pass encriptado: ${encryptedPassword}`)
+        user.password = encryptedPassword
+
         console.log(user);
         const NewUser = await user.save();
         NewUser.password = undefined;
@@ -75,11 +91,45 @@ function updateUser(req,res) {
         }
     )
 }
-function login(req, res){
-    return res.send({
-        message: 'USUARIO LOGEADO'
+
+
+// Funcion para el loguin del usuario
+async function login (req, res){ 
+    const reqemail= req.body.mail;
+    const reqpassword= req.body.password;
+    console.log(`email= ${reqemail} y pass= ${reqpassword}`);   
+    try{
+        const usuario = await User.findOne( {mail:reqemail});
+    if( usuario == null){
+        return res.send({
+            message: 'no existe email'
+        })
+    }
+    const chequeaPass = await bcrypt.compare (reqpassword, usuario.password)
+    if (! chequeaPass){
+        return res.send ({
+            message: 'password ingresado incorrecto'
+        })
+    }
+    usuario.password= undefined;
+    const token= await jwt.sign (usuario.toJSON(),secretSeed)
+    console.log(token)
+    return res.send ({
+        message: `Ingreso a login`,
+        usuario,
+        token
     })
+    } catch(error){
+        return res.send({
+            message: 'Error en proceso Login',
+            error
+        })
+    }
+    
 }
+
+
+
 module.exports = {
     getUsers,
     getUser,
