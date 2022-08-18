@@ -44,7 +44,7 @@ async function getPedidos (req, res){
 //Actualizacion de estado pedidos por id     pedidoToUpdateID
 async function updatePedido (req ,res){
     try{
-        const id= req.params.pedidoToUpdateID                                          //obtengo el id desde el path
+        const id= req.params.pedidoToUpdateID                                       
         console.log( `El id del pedido a modificar es: ${req.params.pedidoToUpdateID }` )
        let pedido =await Pedido.findByIdAndUpdate(id, req.body, {new:true})                                         
         return res.send({
