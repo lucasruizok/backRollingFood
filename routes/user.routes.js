@@ -7,6 +7,7 @@ const jwtControl = require ('../middlewares/jwt');
 
 api.get('/users', userController.getUsers);
 api.get('/user/:userID', userController.getUser);
+api.get('/orderByDate/', userController.orderByDate);
 api.post('/user', userController.createUser);
 api.delete('/user',jwtControl, userController.deleteUsers);
 api.put('/user', userController.updateUsers);

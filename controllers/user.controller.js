@@ -111,6 +111,30 @@ async function getName (req,res){
     }
 }
 
+//buscar todos los usuarios y los ordena por fecha de creación
+async function orderByDate (req,res){
+    
+    try{
+        const usuario = await User.find({})
+                                  .sort({fecha:-1})
+                                                            
+        if(usuario.length == 0){                                           //bloque para control de arreglo vacio
+            return res.send({
+                message: 'No se enconto ningun usuario'
+            })
+        }       
+        return res.send({
+                message: 'busqueda exitosa',
+                usuario
+            })        
+    } catch(error){
+        return res.send({
+            message: 'error al obtener usuarios',
+            error
+        })
+    }
+}
+
 //Borrar usuario
 async function deleteUsers (req ,res){
     try{
@@ -195,6 +219,8 @@ async function login (req, res){
 module.exports = {
     getUsers,
     getUser,
+    getName,
+    orderByDate,
     createUser,
     deleteUsers,
     updateUsers,
