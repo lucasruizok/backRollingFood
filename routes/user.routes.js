@@ -8,8 +8,8 @@ const jwtControl = require ('../middlewares/jwt');
 api.get('/users', userController.getUsers);
 api.get('/user/:userID', userController.getUser);
 api.post('/user', userController.createUser);
-api.delete('/user',jwtControl, userController.deleteUser);
-api.put('/user', userController.updateUser);
+api.delete('/user',jwtControl, userController.deleteUsers);
+api.put('/user', userController.updateUsers);
 api.post('/login', userController.login)
 
 module.exports = api;
