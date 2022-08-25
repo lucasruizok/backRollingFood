@@ -80,6 +80,47 @@ async function getName (req,res){
     }
 }
 
+//Busqueda y ordenar producto por descuento o precio
+async function orderBy (req,res){
+    const order= req.params.order;
+    let ordenar= {};
+    
+    switch (order){
+        case "A":
+            console.log("Orden por menor a mayor precio");
+            ordenar= {precio: 1}
+            break;
+        case "B":
+            console.log("Orden por May a menor precio");
+            ordenar= {precio : -1}
+            break;
+        default:
+            console.log("Orden por descuento");
+            ordenar= {descuento : -1}
+    }
+    
+
+    try{
+        const producto = await Product.find({})
+                                      .sort( ordenar)
+                                                                                                                             
+        if(producto.length == 0){                                           
+            return res.send({
+                message: 'No se enconto ningun producto'
+            })
+        }       
+        return res.send({
+                message: 'busqueda  exitosa',
+                producto
+            })        
+    } catch(error){
+        return res.send({
+            message: 'error al obtener productos ',
+            error
+        })
+    }
+}
+
 //Borrar usuario
 async function deleteProduct (req ,res){
     try{
@@ -126,6 +167,7 @@ module.exports = {
     getPoducts,
     getProduct,
     getName,
+    orderBy,
     deleteProduct,
     updateProduct
 }

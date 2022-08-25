@@ -15,6 +15,9 @@ api.get('/products/:productID',productController.getProduct);
 //Busca producto por nombre
 api.get('/productNameFind/:productName' , productController.getName);
 
+//Busca producto y ordenar
+api.get('/orderBy/:order' , productController.orderBy);
+
 //Borrar producto
 api.delete(`/product/:productToDeleteID`, productController.deleteProduct);
 
