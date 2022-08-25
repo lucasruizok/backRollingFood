@@ -91,7 +91,7 @@ async function getName (req,res){
     const nombre= req.params.name;
     console.log(nombre)
     try{
-        const usuario = await User.find({fullName: new RegExp(nombre,'i')})
+        const usuario = await User.find({firstName: new RegExp(nombre,'i')})
                                   .select({password:0})
                                                             
         if(usuario.length == 0){                                           //bloque para control de arreglo vacio
