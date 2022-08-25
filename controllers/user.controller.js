@@ -163,11 +163,11 @@ async function updateUsers (req ,res){
         console.log("ingreso updateusers")
         const id= req.params.userToUpdateID                                             //obtengo el id desde el path
         console.log( `El id del usuario a modificar es: ${req.params.userToUpdateID }` )
-       // let usuario =await User.findById(id)
+        let usuario =await User.findByIdAndUpdate(id, req.body, {new:true})
                                                 
         return res.send({
             message: "Actualizacion exitosa",
-            
+            usuario
         })
     }catch(error){
         return res.send({
