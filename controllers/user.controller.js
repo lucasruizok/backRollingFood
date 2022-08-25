@@ -5,42 +5,7 @@ const jwt =require ('jsonwebtoken')
 const secretSeed = require('../config/config').secret
 
 
-function getUsers(req,res) {
-    User.find({}, (error, user) =>{
-        if(error){
-            return res.status(500).send({
-                ok: false,
-                message:'Error al buscar el usuario '
-            })
-        }
-        if(user.length == 0){
-            return res.status(200).send({
-                ok: true,
-                message: 'No existen usuarios registrados'
-            })
-        }
-        return res.status(200).send({
-            ok: true,
-            message:'Usuario encontrado exitosamente',
-            users: user
-        })
-    })
-}
-async function getUser(req,res){
-    console.log(req.params);
-    const id = req.params.userID
-    const user = await User.findById(id);
-    console.log(`EL usuario encontrado es ${user}`)
-    if(!user) return res.status(200).send({
-        ok:false,
-        message:'No se encontró ningun usuario'
-    })
-    return res.send({
-        ok: true,
-        message:'Usuario especifico',
-        user
-    })
-}
+//Creacion de usuarios
 async function createUser(req,res){
     try{
         console.log(req.body);
@@ -76,24 +41,121 @@ async function createUser(req,res){
     }
 }
 
-function deleteUser(req,res) {
-    return res.status(200).send(
-        {
-            message: 'USUARIO ELIMINADO'
+
+
+//buscar todos los usuarios
+function getUsers(req,res) {
+    User.find({}, (error, user) =>{
+        if(error){
+            return res.status(500).send({
+                ok: false,
+                message:'Error al buscar el usuario '
+            })
         }
-    )
+        if(user.length == 0){
+            return res.status(200).send({
+                ok: true,
+                message: 'No existen usuarios registrados'
+            })
+        }
+        return res.status(200).send({
+            ok: true,
+            message:'Usuario encontrado exitosamente',
+            users: user
+        })
+    })
 }
 
-function updateUser(req,res) {
-    return res.status(200).send(
-        {
-            message: 'USUARIO ACTUALIZAD'
-        }
-    )
+//Busqueda de usuarios por id : VER MAS
+async function getUser(req,res){
+    try{
+        const id= req.params.userID                                             //obtengo el id desde el path
+        console.log( `El id del usuario solicitado es: ${req.params.userID}` )
+        let usuario =await User.findById(id)
+        usuario.password=undefined;                                             // oculto el pass al front
+        return res.send({
+            message: "Busqueda por params exitosa",
+            usuario
+        })
+    }catch(error){
+        return res.send({
+            message: "Error obtenido en la busqueda",
+            error
+        })
+    }
+   
+}
+
+//Busqueda por nombre de usuario
+async function getName (req,res){
+    const nombre= req.params.name;
+    console.log(nombre)
+    try{
+        const usuario = await User.find({fullName: new RegExp(nombre,'i')})
+                                  .select({password:0})
+                                                            
+        if(usuario.length == 0){                                           //bloque para control de arreglo vacio
+            return res.send({
+                message: 'No se enconto ningun usuario'
+            })
+        }       
+        return res.send({
+                message: 'busqueda por nombre exitosa',
+                usuario
+            })        
+    } catch(error){
+        return res.send({
+            message: 'error al obtener usuario por nombre',
+            error
+        })
+    }
+}
+
+//Borrar usuario
+async function deleteUsers (req ,res){
+    try{
+        console.log(req.params.userToDeleteID )
+        const id= req.params.userToDeleteID                                           //obtengo el id desde el path
+        console.log( `El id del usuario a borrar es: ${req.params.userToDeleteID}` )
+        const deletedUser =await User.findByIdAndDelete(id)
+        
+        return res.send({
+            message: "Se borro el siguiente usuario",
+            deletedUser
+            
+        })
+    }catch(error){
+        return res.send({
+            message: "Error al borrar usuario",
+            error
+        })
+    }
+
+}
+
+//Actualizacion de usuarios por id
+async function updateUsers (req ,res){
+    try{
+        console.log("ingreso updateusers")
+        const id= req.params.userToUpdateID                                             //obtengo el id desde el path
+        console.log( `El id del usuario a modificar es: ${req.params.userToUpdateID }` )
+       // let usuario =await User.findById(id)
+                                                
+        return res.send({
+            message: "Actualizacion exitosa",
+            
+        })
+    }catch(error){
+        return res.send({
+            message: "Error obtenido en la actualizacion",
+            error
+        })
+    }
+
 }
 
 
-// Funcion para el loguin del usuario
+// Funcion para el login del usuario
 async function login (req, res){ 
     const reqemail= req.body.mail;
     const reqpassword= req.body.password;
@@ -134,7 +196,7 @@ module.exports = {
     getUsers,
     getUser,
     createUser,
-    deleteUser,
-    updateUser,
+    deleteUsers,
+    updateUsers,
     login
 }
