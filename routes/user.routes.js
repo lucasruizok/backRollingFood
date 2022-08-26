@@ -10,7 +10,7 @@ api.get('/user/:userID', userController.getUser);
 api.get('/userName/:name', userController.getName);
 api.get('/orderByDate/', userController.orderByDate);
 api.post('/user', userController.createUser);
-api.delete('/user/:userToDeleteID',jwtControl, userController.deleteUsers);
+api.delete('/user/:userToDeleteID', jwtControl,userController.deleteUsers);
 api.put('/user/:userToUpdateID', userController.updateUsers);
 api.post('/login', userController.login)
 

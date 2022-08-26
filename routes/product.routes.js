@@ -6,8 +6,8 @@ const productController= require('../controllers/product.Controller')
 //creacion de productos
 api.post('/product', productController.createProduct);
 
-//Busca todos los usuarios
-api.get('/products', productController.getPoducts);
+//Busca todos los productos o por categoría
+api.get('/products/:cat?', productController.getPoducts);
 
 //Busca info completa de un producto por su id
 api.get('/products/:productID',productController.getProduct);

@@ -7,10 +7,10 @@ const validRoles = [
 
 const UserSchema = new Schema({
     avatar: {type: String},
-    firstName: {type: String, required: true, minlength:5, maxlength:20},
+    firstName: {type: String, required: true, minlength:5, maxlength:10},
     lastName: {type: String, required: true, minlength:5, maxlength:20},
     mail: {type: String, required: true, unique:true, index:true,maxlength:30},
-    nameUser: {type: String, required: true, unique:true},
+    nameUser: {type: String, required: true, unique:true,maxlength:30},
     password: {type: String, required: true, minlength:4, maxlength:120},
     age: {type: Number, required: true, min:15, max: 100},
     state: {type: Boolean, required: true, default: true},

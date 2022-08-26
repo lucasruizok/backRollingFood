@@ -121,27 +121,8 @@ async function orderBy (req,res){
     }
 }
 
-//Borrar usuario
-async function deleteProduct (req ,res){
-    try{
-        console.log(req.params.productToDeleteID )
-        const id= req.params.productToDeleteID                                           //obtengo el id desde el path
-        console.log( `El id del producto a borrar es: ${req.params.productToDeleteID}` )
-        const deletedProduct =await Product.findByIdAndDelete(id)        
-        return res.send({
-            message: "Se borro el siguiente producto",
-            deletedProduct
-        })
-    }catch(error){
-        return res.send({
-            message: "Error al borrar producto",
-            error
-        })
-    }
 
-}
-
-//Actualizacion de usuarios por id
+//Actualizacion de productos por id
 async function updateProduct (req ,res){
     try{
         const id= req.params.productToUpdateID                                             //obtengo el id desde el path
@@ -160,6 +141,25 @@ async function updateProduct (req ,res){
 
 }
 
+//Borrar producto
+async function deleteProduct (req ,res){
+    try{
+        console.log(req.params.productToDeleteID )
+        const id= req.params.productToDeleteID                                           //obtengo el id desde el path
+        console.log( `El id del producto a borrar es: ${req.params.productToDeleteID}` )
+        const deletedProduct =await Product.findByIdAndDelete(id)        
+        return res.send({
+            message: "Se borro el siguiente producto",
+            deletedProduct
+        })
+    }catch(error){
+        return res.send({
+            message: "Error al borrar producto",
+            error
+        })
+    }
+
+}
 
 
 module.exports = {
