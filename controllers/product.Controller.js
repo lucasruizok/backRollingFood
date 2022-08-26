@@ -1,3 +1,4 @@
+const { find } = require('../schemas/product.schema');
 const Product = require ('../schemas/product.schema');
 
 //Creacion de productos
@@ -18,25 +19,62 @@ async function createProduct (req, res){
     }
 }
 
-//buscar todos los productos
-function getPoducts(req,res) {
-    Product.find ( {} , (error,productos)=> {                                  
-        if( productos.length == 0){
-            return res.status(404).send({
+//buscar todos los productos o por categoria
+async function getPoducts(req,res) {
+    let cat= req.params.cat;
+    console.log(cat);
+    let buscar = {};
+    
+    try{
+        if(cat){
+            buscar = {categoria: cat}
+            const productos1 = await Product.find(buscar)
+
+            if( productos1.length == 0){
+            return res.send({
+                 message: " No se encontró ningun producto"
+             })
+            }   
+             return res.status(200).send({
+                message: "Productos obtenidos correctamente",
+                productosEncontrados: productos1
+                })   
+        } else{
+            const productos1 = await Product.find(buscar)
+
+            if( productos1.length == 0){
+            return res.send({
+                 message: " No se encontró ningun producto"
+             })
+            } 
+            return res.status(200).send({
+                message: "Productos obtenidos correctamente",
+                productosEncontrados: productos1
+                })   
+        }
+
+  /*   console.log(productos1.length)
+       if( productos1.length == 0){
+           return res.send({
                 message: " No se encontró ningun producto"
             })
-        }    
-         if(error) {
-             return res.status(200).send({
-                 message: "Error al obtener productos"
-             })
-         }
-         return res.status(200).send({
-             message: "Productos obtenidos correctamente",
-             productosEncontrados: productos
-         })      
-    })  
+        } 
+        return res.status(200).send({
+            message: "Productos obtenidos correctamente",
+            productosEncontrados: productos1
+            })   
+            */
+    }catch(error){
+        return res.status(200).send({
+        message: "Error al obtener productos",
+        error
+        })
+    }
+
 }
+
+
+
 
 //Busqueda de productos recuperando id : (VER MAS)
 async function getProduct (req ,res){
