@@ -10,6 +10,7 @@ const jwtControl=(req,res,next) =>{
             })
         }
         console.log(decoded);
+        req.user = decoded;                                 //obtengo usuario decodificado/original, se usará luego en fcion IsAdmin.js
         next();
     }  
     )
