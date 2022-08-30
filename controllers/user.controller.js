@@ -161,8 +161,18 @@ async function deleteUsers (req ,res){
 async function updateUsers (req ,res){
     try{
         console.log("ingreso updateusers")
-        const id= req.params.userToUpdateID                                             //obtengo el id desde el path
+        const id= req.params.userToUpdateID                                               //obtengo el id desde el path
         console.log( `El id del usuario a modificar es: ${req.params.userToUpdateID }` )
+        
+        if(req.body.password){                                                           // bloque para hash de nuevo password
+            req.body.password= await bcrypt.hash(req.body.password, saltRounds)
+        }
+        if(!req.body.password){
+            return res.send({
+                message: `error al encriptar`
+            })
+        }
+
         let usuario =await User.findByIdAndUpdate(id, req.body, {new:true})
                                      
         return res.send({
