@@ -10,6 +10,7 @@
     <title>Paginacion</title>
 </head>
 <body>
+  
     <label>Buscador por Primer Nombre</label> <input type="text" id="search">
     <ul id="lista1"></ul>
 
@@ -18,16 +19,20 @@
     </ul>
 
     <nav aria-label="Page navigation example">
-        <ul class="pagination" >
+        <ul class="pagination" id="botonera" >
           <li class="page-item">
             <a class="page-link" href="#" aria-label="Previous">
               <span aria-hidden="true">&laquo;</span>
             </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          </li >
+          <a id="botonera">
+           <!--
+          <li class="page-item"><a class="page-link" onclick="paginacion(0)" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" onclick="paginacion(1)" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" onclick="paginacion(0)" href="#">3</a></li>
           <li class="page-item">
+            --> 
+          </a>
             <a class="page-link" href="#" aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
             </a>

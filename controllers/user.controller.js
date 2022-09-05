@@ -47,7 +47,8 @@ async function createUser(req,res){
 
 //buscar todos los usuarios
 async function getUsers(req,res) {
-    let page = 0;
+    let page = req.query.page || 0;
+    
 
     try{
             user = await User.find({})
@@ -68,7 +69,9 @@ async function getUsers(req,res) {
             return res.status(200).send({
                 ok: true,
                 message:'Usuario encontrado exitosamente',
-                users: user
+                message:'Limitacion de busqueda a 5 (por paginacion) ',
+                users: user,
+                botones: botones
             })
     }catch(error){
         return res.send({
