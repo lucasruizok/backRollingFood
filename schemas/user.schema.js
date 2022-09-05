@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const validRoles = [
     'Administrador',
-    'Cliente'
+    'Cliente',
+    'Despachante'
 ]
 
 const UserSchema = new Schema({
@@ -15,7 +16,8 @@ const UserSchema = new Schema({
     age: {type: Number, required: true, min:15, max: 100},
     state: {type: Boolean, required: true, default: true},
     role: {type: String, required: true, enum: validRoles, default: 'Cliente'},
-    fecha: {type: Date, default:Date.now,required:true}
+    fecha: {type: Date, default:Date.now,required:true},
+    phone: {type: Number, required: true, minlength:10}
 })
 
 module.exports = mongoose.model('User', UserSchema);

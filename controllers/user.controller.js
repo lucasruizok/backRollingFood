@@ -3,6 +3,8 @@ const bcrypt = require(`bcrypt`);
 const saltRounds = 10;              
 const jwt =require ('jsonwebtoken')
 const secretSeed = require('../config/config').secret
+const itemsPorPagina = 5                                 //valor fijo para paginación que debe coincidir con .limit()
+
 
 
 //Creacion de usuarios
@@ -44,26 +46,37 @@ async function createUser(req,res){
 
 
 //buscar todos los usuarios
-function getUsers(req,res) {
-    User.find({}, (error, user) =>{
-        if(error){
-            return res.status(500).send({
-                ok: false,
-                message:'Error al buscar el usuario '
-            })
-        }
-        if(user.length == 0){
+async function getUsers(req,res) {
+    let page = 0;
+
+    try{
+            user = await User.find({})
+                             .skip(page * itemsPorPagina)  
+                             .limit(itemsPorPagina) 
+            if(user.length == 0){
+                return res.status(200).send({
+                    ok: true,
+                    message: 'No existen usuarios registrados'
+                })
+            } 
+             //bloque para paginacion
+            let cantidad =  await User.find({}).countDocuments()
+            console.log(`La cantidad de usuarios es de: ${cantidad}`);
+            let botones = Math.ceil( cantidad / itemsPorPagina);
+            console.log(`La cantidad de botones sera de: ${botones}`); 
+
             return res.status(200).send({
                 ok: true,
-                message: 'No existen usuarios registrados'
+                message:'Usuario encontrado exitosamente',
+                users: user
             })
-        }
-        return res.status(200).send({
-            ok: true,
-            message:'Usuario encontrado exitosamente',
-            users: user
+    }catch(error){
+        return res.send({
+            message: "Error obtenido en la busqueda",
+            error
         })
-    })
+    }
+   
 }
 
 //Busqueda de usuarios por id : VER MAS
