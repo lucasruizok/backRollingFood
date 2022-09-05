@@ -106,18 +106,32 @@ async function getUser(req,res){
 async function getName (req,res){
     const nombre= req.params.name;
     console.log(nombre)
+
+    let page = req.query.page || 0;
+
+
     try{
         const usuario = await User.find({firstName: new RegExp(nombre,'i')})
                                   .select({password:0})
+                                  .skip(page * itemsPorPagina)  
+                                  .limit(itemsPorPagina) 
                                                             
         if(usuario.length == 0){                                           //bloque para control de arreglo vacio
             return res.send({
                 message: 'No se enconto ningun usuario'
             })
-        }       
+        }  
+         //bloque para paginacion
+         let cantidad =  await User.find({firstName: new RegExp(nombre,'i')
+        }).countDocuments()
+         console.log(`La cantidad de usuarios es de: ${cantidad}`);
+         let botones = Math.ceil( cantidad / itemsPorPagina);
+         console.log(`La cantidad de botones sera de: ${botones}`); 
+  
         return res.send({
                 message: 'busqueda por nombre exitosa',
-                usuario
+                usuario,
+                botones
             })        
     } catch(error){
         return res.send({
