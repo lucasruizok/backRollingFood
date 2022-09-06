@@ -64,3 +64,10 @@ function generaBotones(){
         botonera.innerHTML= botonera.innerHTML+`<li class="page-item"><a class="page-link" onclick="paginacion(${i})" href="#">${i+1}</a></li>`
     }
 }
+
+//Funcion VER MAS (para obtener ID en el path de nueva ventana)
+function getSpecificUser(elemento){ 
+    let id= elemento.target.id                                 //obtengo de todo el evento, el campo donde esta el id
+    console.log(id);
+    window.location.href =`buscaPorID.html?id=${id}`           //con esto me muevo a la otra página   
+ }
