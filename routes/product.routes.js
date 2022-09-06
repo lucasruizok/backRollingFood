@@ -7,10 +7,10 @@ const productController= require('../controllers/product.Controller')
 api.post('/product', productController.createProduct);
 
 //Busca todos los productos o por categoría
-api.get('/products/:cat?', productController.getPoducts);
+api.get('/products/:cat?', productController.getProducts);
 
 //Busca info completa de un producto por su id
-api.get('/products/:productID',productController.getProduct);
+api.get('/productsById/:productID',productController.getProduct);
 
 //Busca producto por nombre
 api.get('/productNameFind/:productName' , productController.getName);

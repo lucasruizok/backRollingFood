@@ -20,7 +20,7 @@ async function createProduct (req, res){
 }
 
 //buscar todos los productos o por categoria
-async function getPoducts(req,res) {
+async function getProducts(req,res) {
     let cat= req.params.cat;
     console.log(cat);
     let buscar = {};
@@ -202,7 +202,7 @@ async function deleteProduct (req ,res){
 
 module.exports = {
     createProduct,
-    getPoducts,
+    getProducts,
     getProduct,
     getName,
     orderBy,
