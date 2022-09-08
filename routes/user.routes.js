@@ -9,7 +9,7 @@ const validate = require ('../middlewares/validate')
 
 
 api.get('/users', userController.getUsers);
-api.get('/user/:userID', userController.getUser);
+api.get('/user/:userID',jwtControl, userController.getUser);
 api.get('/userName/:name', userController.getName);
 api.get('/orderByDate/', userController.orderByDate);
 api.post('/user', userCreateUserValidator (),validate,userController.createUser);
