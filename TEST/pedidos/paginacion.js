@@ -8,7 +8,7 @@ const URL =`http://localhost:3400`
 
 const searchInput= document.getElementById(`search`);
 const listaHTML = document.getElementById(`lista1`);
-let pedidos= [];
+//let pedidos= [];
 
 obtener();
 
@@ -31,25 +31,28 @@ searchInput.addEventListener(`keyup`, async (event)=> {
 function listPedidos(pedidos){
     listaHTML.innerHTML= ``;                                         //para blanquer pantalla
      pedidos.map ( (elemento) => {
-        console.log(elemento._id)
-        listaHTML.innerHTML= listaHTML.innerHTML + `<br>` + elemento.firstName +`  <button onclick="getSpecificUser(event)" id=${elemento._id} > ver mas </button>` +
-        ` <button onclick="updateSpecificUser(event)" id=${elemento._id}> update </button>`+ ` <button onclick="deleteSpecificUser(event)" id=${elemento._id}> delete </button>` 
+        console.log(elemento)
+        listaHTML.innerHTML= listaHTML.innerHTML + `<br>` + elemento.usuario.firstName +elemento.usuario.lastName +
+        `  <button onclick="getSpecificUser(event)" id=${elemento._id} > ver mas </button>` +
+        ` <button onclick="updateSpecificUser(event)" id=${elemento._id}> update </button>`+ 
+        ` <button onclick="deleteSpecificUser(event)" id=${elemento._id}> delete </button>`+ 
+        `<button onclick="Pedidos(event)" id=${elemento._id}> whatsapp </button>` 
      })
-     generaBotones();
+     //generaBotones();
 
    }
 
 //Obtiene todos los elementos  
 function obtener(){
-    fetch(`${URL}/users`)
+    fetch(`${URL}/pedidos`)
         .then (resp => resp.json ())
         .then (datos => {
-            usuarios =datos.users;        //users corresponde a la def en user.controllers
+            pedidos =datos.pedidos;        //users corresponde a la def en user.controllers (retorno de la fcion)
             botones=datos.botones       //cantidad de botones en la paginación
-            listUsers(usuarios)
+           listPedidos(pedidos)
         })        
 }
-
+/*
 //Envio al back la pagina seleccionada por el usuario
 async function paginacion (page){
     const usuariosPorPagina = await axios.get(`${URL}/users/?page=${page}`)
@@ -72,3 +75,15 @@ function getSpecificUser(elemento){
     console.log(id);
     window.location.href =`buscaPorID.html?id=${id}`           //con esto me muevo a la otra página   
  }
+
+*/
+
+
+//Obtener campo phone del usuario desde el pedido a traves de su id
+ async function Pedidos(elemento){
+   
+     const pedido = await axios.get(`${URL}/pedidos/${elemento.target.id}`)
+     console.log(pedido.data.pedidos.usuario.phone)
+ }
+
+ 

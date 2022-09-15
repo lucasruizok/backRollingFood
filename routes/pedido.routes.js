@@ -8,8 +8,8 @@ const pedidoController= require('../controllers/pedido.Controllers')
 //creacion de pedidos
 api.post('/pedido', pedidoController.createPedido);
 
-//Buscar pedidos
-api.get('/pedidos', pedidoController.getPedidos);
+//Buscar pedidos, si se manda opcionalmente id busca el phone asociado a este
+api.get('/pedidos/:productId?', pedidoController.getPedidos);
 
 //Actualizar estado pedidos
 api.put('/pedido/:pedidoToUpdateID', pedidoController.updatePedido);

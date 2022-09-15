@@ -21,18 +21,42 @@ async function createPedido (req, res){
 
 //Buscar todos los pedidos
 async function getPedidos (req, res){
+    let id= req.params.productId;
+    console.log(id);
+    
+
     try{
-        const pedidos = await Pedido.find().populate(`usuario`, {password:0})
+        if(id){
+            
+        const pedidos = await Pedido.findById(id).populate(`usuario`, {password:0})
+                                           // .populate('usuario.phone')
                                             .populate('producto.productoId') ;
         if(pedidos.lenght == 0){
             return res.send({
                 message: 'No existen Pedidos',
             })
-        }                                    
+        }  
+                                       
         return res.send({
             message: 'Pedidos encontrados',
             pedidos
         })
+    }   else{
+         const pedidos = await Pedido.find().populate(`usuario`, {password:0})
+                                           // .populate('usuario.phone')
+                                            .populate('producto.productoId') ;
+        if(pedidos.lenght == 0){
+            return res.send({
+                message: 'No existen Pedidos',
+            })
+        }  
+                                       
+        return res.send({
+            message: 'Pedidos encontrados',
+            pedidos
+        })
+
+    } 
     }catch(error){
         return res.send({
             message: 'error al buscar pedidos',
