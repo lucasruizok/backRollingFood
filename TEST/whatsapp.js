@@ -3,7 +3,7 @@ const token2= "EAAZAUWhDG8ZAUBAOZC1LXBFRWRVsUY2qZBrI2Kf8WjGeZBaYEBBjEEVx4z39rL3F
 
 
 
-function whatsapp (phone){
+ function envioWhatsapp (phone){
    
     const celular= "54" + phone                 //completo numero con la estructura para el envio
     console.log("numero completo", celular)
@@ -14,9 +14,9 @@ function whatsapp (phone){
         "to": "numeroDestino",
         "type": "template",
         "template": {
-        "name": "hello_world",
+        "name": "rollingfood1",
         "language": {
-            "code": "en_US"
+            "code": "es"
         }
         }
     }
@@ -38,11 +38,16 @@ function whatsapp (phone){
     axios(config)
     .then(function (response) {
         console.log(JSON.stringify(response.data));
+        alert("Mensaje Whatsapp enviado correctamente")
     })
     .catch(function (error) {
         console.log(error);
+        alert("Error en envío de mensaje por Whatsapp  ")
     });
 
 }
 
 
+//exports.envioWhatsapp = envioWhatsapp
+
+//export  {envioWhatsapp}

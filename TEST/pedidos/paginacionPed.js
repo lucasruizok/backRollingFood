@@ -1,7 +1,6 @@
 /*------------------------------
 Archivo que contiene todos los pedidos en la BD, se puede ver mas y borrar a c/u
 ------------------------------*/
-const token= "EAAZAUWhDG8ZAUBAJcbnZBgzs8wWGAV6xuV4kNcmJliIFAG8VZC1f7kgLFCcN9d2sPaQckCHfZCe6AJnP2P8QzUNXAjfB6xLllRz06ZCwPC77PMI80mQ6sEdl8Iw4x5sZB1P3lERUcDlkGdBGIHa0WsM7ftELLEzOqD3vT8u9KgU8u831Boi5SXYeIBEKgJIZATspGMIhXMLA2QZDZD"
 
 
 const URL =`http://localhost:3400`
@@ -27,6 +26,19 @@ searchInput.addEventListener(`keyup`, async (event)=> {
    listUsers(usuariosFiltrados);
 })
 */
+
+//Obtener campo phone del usuario desde el pedido a traves de su id
+async function Pedidos(elemento){
+   
+    const pedido = await axios.get(`${URL}/pedidos/${elemento.target.id}`)
+    let phone=pedido.data.pedidos.usuario.phone;
+    console.log(pedido.data.pedidos.usuario.phone)
+    envioWhatsapp(phone)                                                //llamo a funcion en otro archivo js
+}
+
+
+
+
 
 function listPedidos(pedidos){
     listaHTML.innerHTML= ``;                                         //para blanquer pantalla
@@ -78,53 +90,6 @@ function getSpecificUser(elemento){
 
 */
 
-function whatsapp (phone){
-    
-    let phone1= "\"" + phone +"\""
-    console.log("se envia ", phone1)
 
-    var data = JSON.stringify({
-        "messaging_product": "whatsapp",
-        "to": phone1,
-        "type": "template",
-        "template": {
-        "name": "hello_world",
-        "language": {
-            "code": "en_US"
-        }
-        }
-    });
-    
-    var config = {
-        method: 'post',
-        url: 'https://graph.facebook.com/v13.0/106030762244022/messages',
-        headers: { 
-        'Authorization': 'Bearer EAAZAUWhDG8ZAUBAOZC1LXBFRWRVsUY2qZBrI2Kf8WjGeZBaYEBBjEEVx4z39rL3FUyqcuDxheQ0LVWGZBS7U2xqU4clZCErJKzZAgtODkcJP0uS8Q00XQi2RUtYckb5JILV38FSYoZAPObIdZC4PBrKpPenA1y1JRrz8Dj29ZBSZA979JJJmTEplDXug', 
-        'Content-Type': 'application/json'
-        },
-        data : data
-    };
-    
-    axios(config)
-    .then(function (response) {
-        console.log(JSON.stringify(response.data));
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
-
-}
-
-
-
-
-//Obtener campo phone del usuario desde el pedido a traves de su id
- async function Pedidos(elemento){
-   
-     const pedido = await axios.get(`${URL}/pedidos/${elemento.target.id}`)
-     let phone=pedido.data.pedidos.usuario.phone;
-     console.log(pedido.data.pedidos.usuario.phone)
-     whatsapp(phone)
- }
 
  
