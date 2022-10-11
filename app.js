@@ -9,5 +9,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(user_routes,product_routes,pedido_routes,whatsapp_routes);
+app.use('/public', express.static(`${__dirname}/storage/imgs`))
 
 module.exports = app;
