@@ -5,12 +5,12 @@ const categorias= ['Tradicionales','Especiales', 'Vegetarianas', 'Calzones'];
 
 const ProductSchema =new Schema({
         imgUrl:{type: String},
-        nombre: {type: String , minlenght:3, maxlenght:10, required:true,unique:true},
-        estado: {type: Boolean, default:true},
-        precio: {type: Number, required:true},
-        descuento:{type: Number, required:true, default:0},
-        detalle: {type: String,required:true},
-        categoria: { type: String, enum: categorias, required:true},
+        productName: {type: String , minlenght:3, maxlenght:10, required:true,unique:true},
+        state: {type: Boolean, default:true},
+        price: {type: Number, required:true},
+        discount:{type: Number, required:true, default:0},
+        detail: {type: String,required:true},
+        category: { type: String, enum: categorias, required:true},
         amount:{type: Number, default:1}
  })
 

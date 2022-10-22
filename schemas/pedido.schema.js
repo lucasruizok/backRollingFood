@@ -1,19 +1,20 @@
 const mongoose = require (`mongoose`);
 const Schema = mongoose.Schema;
  
-const estados=[ `PENDIENTE`, `REALIZADO`];
+const state=[ `pendiente`, `realizado`];
 
 const PedidoSchema =new Schema({
-        usuario: {type: String , ref:`User` ,required:true},
-        fecha: {type: Date, default:Date.now,required:true},
-        producto:[
+        nameUser: {type: String ,required:true},
+        phone: {type: Number, required: true, minlength:10, maxlength:10},
+        total:{type: Number,required:true},
+        date: {type: Date, default:Date.now,required:true},
+        products:[
             {
-            productoId: {type: String, ref: `Product`},
-            cantidad: {type: Number},
-            precio: {type: Number}
+            name:{type: String},
+            amount: {type: Number},
             }
         ] ,
-        estado: {type: String, enum: estados, default:`PENDIENTE`}           
+        state: {type: String, enum: state, default:`pendiente`}           
  })
 
 

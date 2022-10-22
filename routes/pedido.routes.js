@@ -12,8 +12,8 @@ api.post('/pedido', pedidoController.createPedido);
 api.get('/pedidos/:productId?', pedidoController.getPedidos);
 
 //Actualizar estado pedidos
-api.put('/pedido/:pedidoToUpdateID', pedidoController.updatePedido);
+api.put('/pedidos/:pedidoToUpdateID', pedidoController.updatePedido);
 
-
+api.delete(`/pedidos/:pedidoToDeleteID`, pedidoController.deletePedido);
 
 module.exports = api; 

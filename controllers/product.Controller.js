@@ -200,9 +200,7 @@ async function updateProduct(req, res) {
 //Borrar producto
 async function deleteProduct(req, res) {
     try {
-        console.log(req.params.productToDeleteID)
         const id = req.params.productToDeleteID //obtengo el id desde el path
-        console.log(`El id del producto a borrar es: ${req.params.productToDeleteID}`)
         const deletedProduct = await Product.findByIdAndDelete(id)
         return res.send({
             message: "Se borro el siguiente producto",
@@ -214,7 +212,6 @@ async function deleteProduct(req, res) {
             error
         })
     }
-
 }
 
 

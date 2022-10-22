@@ -22,15 +22,10 @@ async function createPedido (req, res){
 //Buscar todos los pedidos
 async function getPedidos (req, res){
     let id= req.params.productId;
-    console.log(id);
-    
-
     try{
         if(id){
-            
         const pedidos = await Pedido.findById(id).populate(`usuario`, {password:0})
-                                           // .populate('usuario.phone')
-                                            .populate('producto.productoId') ;
+                                                 .populate('producto.productoId') ;
         if(pedidos.lenght == 0){
             return res.send({
                 message: 'No existen Pedidos',
@@ -69,7 +64,6 @@ async function getPedidos (req, res){
 async function updatePedido (req ,res){
     try{
         const id= req.params.pedidoToUpdateID                                       
-        console.log( `El id del pedido a modificar es: ${req.params.pedidoToUpdateID }` )
        let pedido =await Pedido.findByIdAndUpdate(id, req.body, {new:true})                                         
         return res.send({
             message: "Actualizacion exitosa",
@@ -83,12 +77,26 @@ async function updatePedido (req ,res){
     }
 }
 
-
+async function deletePedido (req, res){
+    try{
+        const id = req.params.pedidoToDeleteID
+        const deletePedido = await Pedido.findByIdAndDelete(id);
+        return res.send({
+            message:"Se borro correctamente el siguiente pedido",
+            deletePedido
+        })
+    } catch {
+        return res.send({
+            message:"Error al borrar pedido"
+        })
+    }
+}
 
 
 
 module.exports ={
     createPedido,
     getPedidos,
-    updatePedido
+    updatePedido,
+    deletePedido
 }
