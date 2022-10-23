@@ -2,7 +2,7 @@ const User = require('../schemas/user.schema')
 const bcrypt = require(`bcrypt`);
 const saltRounds = 10;
 const jwt = require('jsonwebtoken')
-const secretSeed = require('../config/config').secret
+const secretSeed = process.env.SECRET
 const itemsPorPagina = 5 //valor fijo para paginación que debe coincidir con .limit()
 
 //Creacion de usuarios

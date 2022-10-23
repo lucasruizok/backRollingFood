@@ -1,5 +1,5 @@
 const jwt =require ('jsonwebtoken')
-const secretSeed = require('../config/config').secret
+const secretSeed = process.env.SECRET
 
 const jwtControl=(req,res,next) =>{
     const token =req.headers.authorization;

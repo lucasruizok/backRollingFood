@@ -1,7 +1,6 @@
 require('dotenv').config({path: 'variables.env'});
 const url = process.env.MONGODB_URL;
 const mongoose = require('mongoose');
-const express = require('express');
 const port = process.env.PORT || 3400;
 const host = process.env.HOST || '0.0.0.0';
 const app = require('./app');
